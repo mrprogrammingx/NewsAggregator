@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\ApiSources;
+use App\Enum\ApiSources;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
