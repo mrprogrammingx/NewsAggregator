@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Enum;
 
-enum DataSources: string
+enum ApiSources: string
 {
     case NEWSAPI = 'news_api';
     case OPENNEWS = 'open_news';
