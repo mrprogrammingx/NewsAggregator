@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\ArticleRepositoryInterface;
 use App\Contracts\ArticleServiceInterface;
+use App\Repositories\ArticleRepository;
 use App\Services\ArticleService;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ArticleServiceInterface::class, ArticleService::class);
+        $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
     }
 
     /**
