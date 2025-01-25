@@ -7,7 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    public $casts = [
-        'api_source' => ApiSources::class,
+    protected $fillable = [
+        'url',
+        'title',
+        'api_source',
+        'source',
+        'author',
+        'description',
+        'category',
+        'language',
+        'url_to_image',
+        'content',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
     ];
 }
