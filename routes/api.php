@@ -9,4 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/articles/fetch', [ArticleController::class, 'fetchAllNewsApies']);
+Route::post('/articles/store', [ArticleController::class, 'store']);
+Route::get('/articles/search', [ArticleController::class, 'search']);
 
