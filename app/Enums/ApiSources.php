@@ -24,4 +24,17 @@ enum ApiSources: string
             self::NEWSAPIORG => 'NewsAPI.org',
         };
     }
+
+    public static function serviceClassName($value) : string
+    {
+        return match($value){
+            self::NEWSAPI->value => 'NewsAPIService',
+            self::OPENNEWS->value => 'OpenNewsService',
+            self::NEWSCRED->value => 'NewsCredService',
+            self::THEGUARDIAN->value => 'TheGuardianService',
+            self::NEWYORKTIMES->value => 'NewYorkTimesService',
+            self::BBCNEWS->value => 'BBCNewsService',
+            self::NEWSAPIORG->value => 'NewsApiOrgService',
+        };
+    }
 }
