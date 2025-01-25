@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author')->nullable();
-            $table->string('source'); // To identify which API the article came from
             $table->string('api_source');
-            $table->longText('description')->nullable();
+            $table->string('source')->nullable(); 
+            $table->text('description')->nullable();
             $table->string('category')->nullable();
             $table->string('language')->nullable();
             $table->string('url_to_image')->nullable();
