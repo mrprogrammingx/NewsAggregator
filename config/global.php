@@ -18,5 +18,10 @@ return [
         },
         []
     ),
+    'articles' => [
+        'pagination' => [
+            'default_per_page' => 10
+        ]
+    ]
 ];
 
