@@ -39,8 +39,8 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd <project-folder>
+   git clone https://github.com/binahayat00/NewsAggregator
+   cd NewsAggregator
    ```
 
 2. Install dependencies:
