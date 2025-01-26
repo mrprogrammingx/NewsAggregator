@@ -3,67 +3,69 @@
 namespace App\Services;
 
 use App\Models\Article;
-use App\Enums\ApiSources;
+use App\Traits\ErrorLogTrait;
+use App\Traits\ValidationTrait;
 use Illuminate\Support\Facades\Log;
 use App\Contracts\ArticleServiceInterface;
+use App\Http\Requests\ArticleStoreRequest;
+use App\Contracts\ApiSourcesServiceInterface;
 use App\Contracts\ArticleRepositoryInterface;
 use App\Services\Factories\NewsAdapterFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleService implements ArticleServiceInterface
 {
-    public function __construct(public readonly ArticleRepositoryInterface $articleRepository)
+    use ValidationTrait;
+    use ErrorLogTrait;
+
+    private array $articleConfig;
+
+    public function __construct(
+        public ArticleRepositoryInterface $articleRepository,
+        public ApiSourcesServiceInterface $apiSourcesService,
+        )
     {
+        $this->articleConfig = config('global.articles');
     }
     public function all(): LengthAwarePaginator
     {
         return $this->articleRepository->all();
     }
 
-    public function store(array $article): Article
+    public function store(array $article): ?Article
     {
-        return $this->articleRepository->store($article);
+        $validatedArticle = $this->validateWithCustomFormRequest($article, new ArticleStoreRequest());
+
+        if($validatedArticle === false){
+            $this->logError('Failed to saving Article in the database:', $article);
+            return null;
+        }
+
+        return $this->articleRepository->store($validatedArticle);
     }
 
     public function fetchAllNewsApies(): array
     {
-        $transformArticles = [];
-        foreach ([$this->getActiveApiSourceIds()[0]] as $apiSourceId) {
+        $allTransformedArticles = [];
+        foreach ($this->apiSourcesService->getActiveIds() as $apiSourceId) {
 
             Log::info('Start fetching:', [now(), $apiSourceId]);
 
-            $transformArticles = array_merge($transformArticles, $this->fetchNewsApi($apiSourceId));
+            $transformedArticles = $this->fetchNewsApi($apiSourceId);
+
+            $allTransformedArticles = array_merge($allTransformedArticles, $transformedArticles);
         }
 
-        return $transformArticles;
-    }
-
-    public function getActiveApiSourceIds(): array
-    {
-        return array_keys(
-            array_filter(
-                config('global.news'),
-                fn($item) => $item['active'] === true
-            )
-        );
+        return $allTransformedArticles;
     }
 
     public function fetchNewsApi(string $apiSourceId): array
     {
-        $ApiSourceService = $this->getApiSourceServiceName($apiSourceId);
+        $ApiSourceServiceClass = $this->apiSourcesService->getServiceName($apiSourceId);
 
-        $articlesResponse = [
-            ['webUrl' => $apiSourceId, 'web_url' => $apiSourceId, 'url' => $apiSourceId],
-            ['webUrl' => $apiSourceId, 'web_url' => $apiSourceId, 'url' => $apiSourceId],
-        ];
-        // $articlesResponse = new $ApiSourceService()->fetchArticles(); // fetch Api Source response for every api source
-        //TODO 
+        $articlesResponse = new $ApiSourceServiceClass()->fetchArticles(); // fetch Api Source response for every api source based on api source id for example: NewsApiOrgService()
+
         return $this->convertApiResponseToDatabaseColumns($apiSourceId, $articlesResponse);
-    }
-
-    public function getApiSourceServiceName(string $apiSourceId): string
-    {
-        return 'App\Services\NewsApis\\' . ApiSources::serviceClassName($apiSourceId); //call service class based on each api source
     }
 
     public function convertApiResponseToDatabaseColumns(string $apiSourceId, ?array $articlesResponse): array
@@ -80,11 +82,9 @@ class ArticleService implements ArticleServiceInterface
 
     public function search(array $filters): LengthAwarePaginator
     {
-        $filters = $this->extractFilters($filters);
-
-        $articles = $this->articleRepository->search($filters);
-
-        return $articles;
+        return $this->articleRepository->search(
+            $this->extractFilters($filters)
+        );
     }
 
     public function extractFilters(array $filters): array
@@ -97,9 +97,33 @@ class ArticleService implements ArticleServiceInterface
             'author' => $filters['author'] ?? null,
             'date_from' => $filters['date_from'] ?? null,
             'date_to' => $filters['date_to'] ?? null,
-            'per_page' => $filters['per_page'] ?? 10,//TODO
+            'per_page' => $filters['per_page'] ?? $this->articleConfig['pagination']['default_per_page'],
         ];
     }
 
-    //TODO // method fetch and save in datebase 
+    public function storeArticles(array $articles): array
+    {
+        Log::info('Start saving articles to the database.');
+        
+        $savedArticles = [];
+        foreach($articles as $article)
+        {
+            $result = $this->store($article);
+
+            if($result === null){
+                $this->logError('Error saving article to database.', $article);
+            }
+            $savedArticles[] = $result; 
+
+        }
+
+        Log::info('Finished saving articles to the database.', ['count' => count($savedArticles)]);
+
+        return $savedArticles;
+    }
+
+    public function SaveAllFetchedNewsApies(): array
+    {
+        return $this->storeArticles(articles: $this->fetchAllNewsApies());
+    }
 }
