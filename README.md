@@ -170,6 +170,15 @@ GET /api/articles/filter?search=technology&category=General&per_page=5
 }
 ```
 
+### API Sources
+
+#### Active API Sources
+
+- **Endpoint**: `GET /api/api-sources/activeIds`
+
+
+
+
 ### Fetch Articles from APIs
 
 This feature allows you to fetch articles from active news APIs either manually or automatically.
