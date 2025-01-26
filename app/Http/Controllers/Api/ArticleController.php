@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\ArticleSearchRequest;
-use App\Http\Resources\ArticlePaginationCollection;
-use App\Http\Resources\ArticleResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ArticleResource;
 use App\Contracts\ArticleServiceInterface;
 use App\Http\Requests\ArticleStoreRequest;
+use App\Http\Requests\ArticleSearchRequest;
+use App\Http\Resources\ArticlePaginationCollection;
 
 class ArticleController extends Controller
 {
@@ -33,5 +33,10 @@ class ArticleController extends Controller
     public function search(ArticleSearchRequest $request): ArticlePaginationCollection
     {
         return new ArticlePaginationCollection($this->articleService->search($request->validated()));
+    }
+
+    public function SaveAllFetchedNewsApies(): array
+    {
+        return $this->articleService->SaveAllFetchedNewsApies();
     }
 }
