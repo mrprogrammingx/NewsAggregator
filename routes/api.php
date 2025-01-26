@@ -19,5 +19,5 @@ Route::controller(ArticleController::class)->prefix('/articles')->group(function
 
 Route::controller(ApiSourcesController::class)->prefix('/api-sources')->group( function() {
     Route::get('/ids', 'allIds');
-    Route::get('/ActiveIds', 'getActiveIds');    
+    Route::get('/activeIds', 'getActiveIds');    
 });
