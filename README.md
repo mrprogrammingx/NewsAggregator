@@ -3,7 +3,6 @@
 ## Overview
 
 This project is a **News Aggregator API** designed to fetch, store, and provide access to news articles from various sources via API endpoints. It supports filtering, searching, and pagination to meet the needs of front-end applications.
-
 ---
 
 ## Features
@@ -16,12 +15,20 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
 
 ---
 
+## Supported API News
+
+- NewsAPI.org
+- New York Times
+- The Guardian
+
+
 ## Technologies
 
 - **Backend Framework**: Laravel
 - **Database**: MySQL
 - **Logging**: Laravel Log with custom error logs.
 - **Testing**: PHPUnit, Mockery
+- **OS Platform**: Docker, Laravel Sail
 
 ---
 
@@ -55,20 +62,29 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
    cp .env.example .env
    ```
 
-   Update the `.env` file with your database credentials and other environment variables.
-
-4. Run database migrations:
+   Update the `.env` file with your database credentials and other environment variables and api_keys.
+   
+4. Build Docker and Laravel Sail Containers:
 
    ```bash
-   php artisan migrate
+   ./vendor/bin/sail artisan build
    ```
-
+   
 5. Start the development server:
 
    ```bash
-   php artisan serve
+   ./vendor/bin/sail artisan up -d
    ```
+6. Run database migrations:
 
+   ```bash
+   /vendor/bin/sail artisan migrate
+   ```
+7. Run Schedule:
+    For fetching News APIs command automatically and saving in the database.
+   ```bash
+   /vendor/bin/sail artisan schedule:work
+   ```
 ---
 
 ## API Endpoints
