@@ -82,28 +82,29 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
     NEW_YORK_TIMES_KEY=your_api_key
    ```
    When you add your `API_KEY` to `.env` for each of the API sources, the API source will be automatically active.
-7. Build Docker and Laravel Sail Containers:
+   
+6. Build Docker and Laravel Sail Containers:
 
    ```bash
    ./vendor/bin/sail artisan build
    ```
    
-8. Start the development server:
+7. Start the development server:
 
    ```bash
    ./vendor/bin/sail artisan up -d
    ```
    
-9. Run database migrations:
+8. Run database migrations:
 
    ```bash
-   /vendor/bin/sail artisan migrate
+   ./vendor/bin/sail artisan migrate
    ```
    
-10. Run Schedule:
+9. Run Schedule:
     For fetching News APIs command automatically and saving in the database.
    ```bash
-   /vendor/bin/sail artisan schedule:work 
+   ./vendor/bin/sail artisan schedule:work 
    ```
 ---
 
