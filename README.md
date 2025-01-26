@@ -164,7 +164,8 @@ GET /api/articles/filter?search=technology&category=General&per_page=5
   "pagination": {
     "total": 50,
     "per_page": 5,
-    "current_page": 1
+    "current_page": 1,
+    "last_page": 1,
   }
 }
 ```
