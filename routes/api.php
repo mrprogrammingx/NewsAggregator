@@ -3,13 +3,21 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ArticleController;
+use App\Http\Controllers\Api\ApiSourcesController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/articles', [ArticleController::class, 'index']);
-Route::get('/articles/fetch', [ArticleController::class, 'fetchAllNewsApies']);
-Route::post('/articles/store', [ArticleController::class, 'store']);
-Route::get('/articles/search', [ArticleController::class, 'search']);
+Route::controller(ArticleController::class)->prefix('/articles')->group(function(){
+    Route::get('', 'index');
+    Route::get('/fetch', 'fetchAllNewsApies');
+    Route::post('', 'store');
+    Route::get('/filter', 'search');
+    Route::post('/fetch/store', 'SaveAllFetchedNewsApies');
+});
 
+Route::controller(ApiSourcesController::class)->prefix('/api-sources')->group( function() {
+    Route::get('/ids', 'allIds');
+    Route::get('/ActiveIds', 'getActiveIds');    
+});
