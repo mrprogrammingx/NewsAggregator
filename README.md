@@ -66,26 +66,42 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
 
    Update the `.env` file with your database credentials and other environment variables and api_keys.
    
-4. Build Docker and Laravel Sail Containers:
+4. Get your API Keys (At least one of this list) and Added to your .env file:
+    - NewsAPI.org:
+   ```bash
+        NEWS_API_ORG_KEY=your_api_key
+   ```
+
+    - New York Times:
+   ```bash
+        THE_GUARDIAN_KEY=your_api_key
+   ```
+   
+    - The Guardian:
+   ```bash
+        NEW_YORK_TIMES_KEY=your_api_key
+   ```
+   
+7. Build Docker and Laravel Sail Containers:
 
    ```bash
    ./vendor/bin/sail artisan build
    ```
    
-5. Start the development server:
+8. Start the development server:
 
    ```bash
    ./vendor/bin/sail artisan up -d
    ```
-6. Run database migrations:
+9. Run database migrations:
 
    ```bash
    /vendor/bin/sail artisan migrate
    ```
-7. Run Schedule:
+10. Run Schedule:
     For fetching News APIs command automatically and saving in the database.
    ```bash
-   /vendor/bin/sail artisan schedule:work
+   /vendor/bin/sail artisan schedule:work 
    ```
 ---
 
