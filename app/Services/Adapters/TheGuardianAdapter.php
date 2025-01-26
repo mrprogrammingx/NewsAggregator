@@ -21,9 +21,7 @@ class TheGuardianAdapter implements ArticleAdapterInterface
             'source' => $article['source'] ?? 'Unknown',
             'api_source' => $this->apiSourceId,
             'category' => $article['sectionId'] ?? 'General',
-            'content' =>
-                Str::of($article['fields']['bodyText'] ?? '')
-                    ->take($this->apiSourceConfig['max_content']) ?? '',// it contains whole text needs max default content for limiting
+            'content' => substr($article['fields']['bodyText'] ?? '', 0, $this->apiSourceConfig['max_content']) ?? '',
             'description' => $article['description'] ?? '',
             'url_to_image' => '',
             'language' => '',
