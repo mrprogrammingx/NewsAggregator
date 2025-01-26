@@ -66,22 +66,22 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
 
    Update the `.env` file with your database credentials and other environment variables and api_keys.
    
-4. Get your API Keys (At least one of this list) and Added to your .env file:
+4. Get your `API Keys` (At least one of this list) and Added to your `.env` file:
     - NewsAPI.org:
    ```bash
-        NEWS_API_ORG_KEY=your_api_key
+    NEWS_API_ORG_KEY=your_api_key
    ```
 
     - New York Times:
    ```bash
-        THE_GUARDIAN_KEY=your_api_key
+    THE_GUARDIAN_KEY=your_api_key
    ```
    
     - The Guardian:
    ```bash
-        NEW_YORK_TIMES_KEY=your_api_key
+    NEW_YORK_TIMES_KEY=your_api_key
    ```
-   
+   When you add your `API_KEY` to `.env` for each of the API sources, the API source will be automatically active.
 7. Build Docker and Laravel Sail Containers:
 
    ```bash
@@ -93,11 +93,13 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
    ```bash
    ./vendor/bin/sail artisan up -d
    ```
+   
 9. Run database migrations:
 
    ```bash
    /vendor/bin/sail artisan migrate
    ```
+   
 10. Run Schedule:
     For fetching News APIs command automatically and saving in the database.
    ```bash
@@ -174,14 +176,14 @@ This feature allows you to fetch articles from active news APIs either manually 
 
 - **Command**: Run the following command to fetch articles from active APIs:  
   ```bash
-  php artisan app:fetch-news-data
+  /vendor/bin/sail artisan app:fetch-news-data
   ```
 
 #### Automatic Updates
 
 - To enable automatic updates, run the Laravel scheduler:  
   ```bash
-  php artisan schedule:work
+  /vendor/bin/sail artisan schedule:work
   ```
 - Any errors encountered during scheduling, fetching, or storing will be logged in the application's log file. You can review the logs to identify and resolve any issues.
 ---
