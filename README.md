@@ -30,7 +30,8 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
 - **Logging**: Laravel Log with custom error logs.
 - **Testing**: PHPUnit, Mockery
 - **OS Platform**: Docker, Laravel Sail
-
+- **Design patterns**: Factory, Adapter, Service, Repository
+  
 ---
 
 ## Installation
