@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a **News Aggregator API** designed to fetch, store, and provide access to news articles from various sources via API endpoints. It supports filtering, searching, and pagination to meet the needs of front-end applications.
+    This project is a **News Aggregator API** designed to fetch, store, and provide access to news articles from various sources via API endpoints. It supports filtering, searching, and pagination to meet the needs of front-end applications.
 ---
 
 ## Features
