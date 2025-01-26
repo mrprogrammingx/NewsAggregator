@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\ApiSources;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ArticleSearchRequest extends FormRequest
 {
@@ -25,7 +27,7 @@ class ArticleSearchRequest extends FormRequest
     {
         return [
             'search' => 'nullable|string|max:255',
-            'category' => 'nullable|string|in:General,Sports,Entertainment,Technology', // Update with valid categories
+            'category' => 'nullable|string',
             'source' => 'nullable|string|max:100',
             'api_source' => [
                 'nullable',
@@ -57,6 +59,27 @@ class ArticleSearchRequest extends FormRequest
      */
     private function sanitize($value): ?string
     {
-        return $value ? htmlspecialchars(strip_tags(trim($value))) : null;
+        return $value ? mb_convert_encoding(htmlspecialchars(strip_tags(trim($value))), 'UTF-8', 'UTF-8') : null;
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => $validator->errors(),
+            'data' => $validator->errors()
+        ], 400));
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'api_source' => 'Api source is invalid, choose between this list: ' . implode(' , ', array_column(ApiSources::cases(), 'value')),
+        ];
     }
 }
