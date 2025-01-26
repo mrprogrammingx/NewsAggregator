@@ -32,16 +32,37 @@ class ArticleApiTest extends TestCase
             'content' => 'content',
             'published_at' => now()->format('Y/m/d'),
         ];
-        $response = $this->post('/api/articles/store', $data);
-        $response->assertStatus(200);
+
+        $response = $this->post('/api/articles', $data);
+        $response->assertStatus(201)
+            ->assertJsonFragment(['title' => 'Title 1']);
+
+        $this->assertDatabaseHas('articles', ['url' => 'https://google.com']);
 
     }
 
-    public function test_can_fetch()
+    public function test_can_store_articles()
     {
-        //TODO 
-        // need mock test
-        $response = $this->get('/api/articles/fetch');
-        $response->assertStatus(200);
+
+        $payload = [
+            'url' => 'https://google.com',
+            'title' => 'Test Article',
+            'api_source' => ApiSources::NEWSAPIORG->value,
+            'content' => 'This is a test article.',
+            'category' => 'Technology',
+            'description' => 'description',
+            'source' => 'BBC News',
+            'author' => 'John Doe',
+            'language' => 'en',
+            'url_to_image' => 'https://google.com',
+            'published_at' => now()->toIso8601String(),
+        ];
+
+        $response = $this->postJson('/api/articles', $payload);
+
+        $response->assertStatus(201)
+                 ->assertJsonFragment(['title' => 'Test Article']);
+
+        $this->assertDatabaseHas('articles', ['title' => 'Test Article']);
     }
 }
