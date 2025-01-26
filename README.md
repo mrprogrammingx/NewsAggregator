@@ -179,11 +179,11 @@ GET /api/articles/filter?search=technology&category=General&per_page=5
 #### Response:
 
 ```json
-  [
+[
     "the_guardian",
     "new_york_times",
     "news_api_org"
-  ]
+]
 ```
 
 
