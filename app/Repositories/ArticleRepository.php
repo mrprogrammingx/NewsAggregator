@@ -28,6 +28,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function applyFilters(array $filters): Builder
     {
         $query = $this->article::query();
+        
         if (!empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
                 $q->where('title', 'like', "%{$filters['search']}%")
