@@ -16,7 +16,7 @@ This project is a **News Aggregator API** designed to fetch, store, and provide 
 
 ---
 
-## Supported API News
+## Supported News APIs
 
 - NewsAPI.org
 - New York Times
