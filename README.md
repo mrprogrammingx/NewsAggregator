@@ -176,7 +176,15 @@ GET /api/articles/filter?search=technology&category=General&per_page=5
 
 - **Endpoint**: `GET /api/api-sources/activeIds`
 
-
+```json
+{
+  [
+    "the_guardian",
+    "new_york_times",
+    "news_api_org"
+  ]
+}
+```
 
 
 ### Fetch Articles from APIs
