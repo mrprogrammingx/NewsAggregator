@@ -26,6 +26,18 @@ class FetchNewsData extends Command
      */
     public function handle()
     {
-        resolve('App\Services\ArticleService')->fetchAllNewsApies();
+        $result = resolve('App\Services\ArticleService')->SaveAllFetchedNewsApies();
+
+        if(is_array($result) === false){
+            $this->warn('Failed to fetch and store news data.');
+            return;
+        }
+
+        if(count($result) < 1){
+            $this->warn('There is not news data.');
+            return;
+        }
+
+        $this->info('News data fetched and stored successfully.');
     }
 }
