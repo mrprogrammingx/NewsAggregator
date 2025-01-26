@@ -3,12 +3,15 @@
 namespace App\Services\NewsApis;
 
 use App\Enums\ApiSources;
+use App\Traits\ErrorLogTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use App\Contracts\NewsServiceInterface;
 
 class NewYorkTimesService implements NewsServiceInterface
 {
+    use ErrorLogTrait;
+
     private string $apiSourceId = ApiSources::NEWYORKTIMES->value;
     private array $apiSourceConfig;
 
@@ -37,11 +40,13 @@ class NewYorkTimesService implements NewsServiceInterface
             $response = Http::get($this->apiSourceConfig['base_url'] . $path, $queryParams);
 
             if ($response->failed()) {
-                Log::error('Failed to fetch articles', [
+
+                $this->logError('Failed to fetch articles', [
                     'status' => $response->status(),
                     'body' => $response->body(),
                     'source_api' => $this->apiSourceId,
                 ]);
+
                 throw new \Exception('Failed to fetch articles from API:' . $this->apiSourceId);
             }
 
@@ -49,7 +54,8 @@ class NewYorkTimesService implements NewsServiceInterface
 
         } catch (\Exception $e) {
 
-            Log::error('Error fetching articles', ['message' => $e->getMessage(), 'source_api' => $this->apiSourceId]);
+            $this->logError('Error fetching articles', ['message' => $e->getMessage(), 'source_api' => $this->apiSourceId]);
+
             return [];
         }
     }

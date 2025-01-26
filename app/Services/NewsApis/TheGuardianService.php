@@ -4,12 +4,15 @@ namespace App\Services\NewsApis;
 
 use App\Enums\ApiSources;
 use App\Enums\LanguageCodes;
-use Illuminate\Support\Facades\Log;
+use App\Traits\ErrorLogTrait;
 use Illuminate\Support\Facades\Http;
 use App\Contracts\NewsServiceInterface;
 
 class TheGuardianService implements NewsServiceInterface
 {
+
+    use ErrorLogTrait;
+
     private string $apiSourceId = ApiSources::THEGUARDIAN->value;
     private array $apiSourceConfig;
     public function __construct()
@@ -48,11 +51,12 @@ class TheGuardianService implements NewsServiceInterface
             $response = Http::get($this->apiSourceConfig['base_url'] . $path, $queryParams);
 
             if ($response->failed()) {
-                Log::error('Failed to fetch articles', [
+                $this->logError('Failed to fetch articles', [
                     'status' => $response->status(),
                     'body' => $response->body(),
                     'source_api' => $this->apiSourceId,
                 ]);
+
                 throw new \Exception('Failed to fetch articles from API:'.$this->apiSourceId);
             }
 
@@ -60,7 +64,8 @@ class TheGuardianService implements NewsServiceInterface
 
         } catch (\Exception $e) {
 
-            Log::error('Error fetching articles', ['message' => $e->getMessage(),'source_api' => $this->apiSourceId]);
+            $this->logError('Error fetching articles', ['message' => $e->getMessage(),'source_api' => $this->apiSourceId]);
+
             return [];
         }
     }
