@@ -14,7 +14,7 @@ class FetchNewsDataTest extends TestCase
     {
         $articleServiceMock = Mockery::mock(ArticleService::class);
 
-        $articleServiceMock->shouldReceive('SaveAllFetchedNewsApies')
+        $articleServiceMock->shouldReceive('saveAllFetchedNewsApies')
             ->once()
             ->andReturn([]); // Simulate empty array response
 
@@ -29,7 +29,7 @@ class FetchNewsDataTest extends TestCase
     {
         $articleServiceMock = Mockery::mock(ArticleService::class);
         
-        $articleServiceMock->shouldReceive('SaveAllFetchedNewsApies')
+        $articleServiceMock->shouldReceive('saveAllFetchedNewsApies')
             ->once()
             ->andReturn(['article1', 'article2']); // Simulate non-empty array response
 

@@ -122,7 +122,7 @@ class ArticleService implements ArticleServiceInterface
         return $savedArticles;
     }
 
-    public function SaveAllFetchedNewsApies(): array
+    public function saveAllFetchedNewsApies(): array
     {
         return $this->storeArticles(articles: $this->fetchAllNewsApies());
     }

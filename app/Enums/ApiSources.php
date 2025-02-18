@@ -12,9 +12,9 @@ enum ApiSources: string
     case BBCNEWS = 'bbc_news';
     case NEWSAPIORG = 'news_api_org';
 
-    public function name() : string
+    public function name(): string
     {
-        return match($this){
+        return match ($this) {
             self::NEWSAPI => 'NewsAPI',
             self::OPENNEWS => 'OpenNews',
             self::NEWSCRED => 'NewsCred',
@@ -25,9 +25,9 @@ enum ApiSources: string
         };
     }
 
-    public static function serviceClassName($value) : string
+    public static function serviceClassName($value): string
     {
-        return match($value){
+        return match ($value) {
             self::NEWSAPI->value => 'NewsAPIService',
             self::OPENNEWS->value => 'OpenNewsService',
             self::NEWSCRED->value => 'NewsCredService',

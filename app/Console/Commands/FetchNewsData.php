@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\ArticleService;
 
 class FetchNewsData extends Command
 {
@@ -26,15 +25,18 @@ class FetchNewsData extends Command
      */
     public function handle()
     {
-        $result = resolve('App\Services\ArticleService')->SaveAllFetchedNewsApies();
 
-        if(is_array($result) === false){
+        $result = resolve('App\Services\ArticleService')->saveAllFetchedNewsApies();
+
+        if (is_array($result) === false) {
             $this->warn('Failed to fetch and store news data.');
+
             return;
         }
 
-        if(count($result) < 1){
+        if (count($result) < 1) {
             $this->warn('There is not news data.');
+
             return;
         }
 

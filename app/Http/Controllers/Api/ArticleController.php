@@ -14,6 +14,7 @@ class ArticleController extends Controller
     public function __construct(public readonly ArticleServiceInterface $articleService)
     {
     }
+    
     public function index(): ArticlePaginationCollection
     {
         return new ArticlePaginationCollection($this->articleService->all());
@@ -35,8 +36,8 @@ class ArticleController extends Controller
         return new ArticlePaginationCollection($this->articleService->search($request->validated()));
     }
 
-    public function SaveAllFetchedNewsApies(): array
+    public function saveAllFetchedNewsApies(): array
     {
-        return $this->articleService->SaveAllFetchedNewsApies();
+        return $this->articleService->saveAllFetchedNewsApies();
     }
 }

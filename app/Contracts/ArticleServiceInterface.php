@@ -23,6 +23,6 @@ interface ArticleServiceInterface
 
     public function storeArticles(array $articles): array;
 
-    public function SaveAllFetchedNewsApies(): array;
+    public function saveAllFetchedNewsApies(): array;
 
 }

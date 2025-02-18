@@ -14,7 +14,7 @@ Route::controller(ArticleController::class)->prefix('/articles')->group(function
     Route::get('/fetch', 'fetchAllNewsApies');
     Route::post('', 'store');
     Route::get('/filter', 'search');
-    Route::post('/fetch/store', 'SaveAllFetchedNewsApies');
+    Route::post('/fetch/store', 'saveAllFetchedNewsApies');
 });
 
 Route::controller(ApiSourcesController::class)->prefix('/api-sources')->group( function() {
