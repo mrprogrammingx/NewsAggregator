@@ -6,9 +6,10 @@ use App\Enums\ApiSources;
 use App\Contracts\ArticleAdapterInterface;
 use App\Services\Adapters\NewsApiOrgAdapter;
 use App\Services\Adapters\TheGuardianAdapter;
+use App\Contracts\NewsAdaptersFactoryInterface;
 use App\Services\Adapters\NewYorkTimesAdapter;
 
-class NewsAdapterFactory
+class NewsAdaptersFactory implements NewsAdaptersFactoryInterface
 {
     public static function make(string $apiSourceId): ArticleAdapterInterface
     {

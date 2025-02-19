@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface NewsServiceInterface
+interface NewsServicesInterface
 {
     public function fetchArticles(): array;
 
