@@ -6,9 +6,9 @@ use App\Enums\ApiSources;
 use App\Enums\LanguageCodes;
 use App\Traits\ErrorLogTrait;
 use Illuminate\Support\Facades\Http;
-use App\Contracts\NewsServiceInterface;
+use App\Contracts\NewsServicesInterface;
 
-class TheGuardianService implements NewsServiceInterface
+class TheGuardianService implements NewsServicesInterface
 {
 
     use ErrorLogTrait;

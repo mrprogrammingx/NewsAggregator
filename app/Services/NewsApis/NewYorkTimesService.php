@@ -6,9 +6,9 @@ use App\Enums\ApiSources;
 use App\Traits\ErrorLogTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use App\Contracts\NewsServiceInterface;
+use App\Contracts\NewsServicesInterface;
 
-class NewYorkTimesService implements NewsServiceInterface
+class NewYorkTimesService implements NewsServicesInterface
 {
     use ErrorLogTrait;
 

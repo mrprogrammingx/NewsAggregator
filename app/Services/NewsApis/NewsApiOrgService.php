@@ -5,11 +5,10 @@ namespace App\Services\NewsApis;
 use App\Enums\ApiSources;
 use App\Enums\LanguageCodes;
 use App\Traits\ErrorLogTrait;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use App\Contracts\NewsServiceInterface;
+use App\Contracts\NewsServicesInterface;
 
-class NewsApiOrgService implements NewsServiceInterface
+class NewsApiOrgService implements NewsServicesInterface
 {
 
     use ErrorLogTrait;

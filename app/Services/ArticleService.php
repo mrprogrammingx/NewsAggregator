@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Article;
+use App\Services\Factories\NewsServicesFactory;
 use App\Traits\ErrorLogTrait;
 use App\Traits\ValidationTrait;
 use Illuminate\Support\Facades\Log;
@@ -10,7 +11,7 @@ use App\Contracts\ArticleServiceInterface;
 use App\Http\Requests\ArticleStoreRequest;
 use App\Contracts\ApiSourcesServiceInterface;
 use App\Contracts\ArticleRepositoryInterface;
-use App\Services\Factories\NewsAdapterFactory;
+use App\Services\Factories\NewsAdaptersFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleService implements ArticleServiceInterface
@@ -61,7 +62,7 @@ class ArticleService implements ArticleServiceInterface
 
     public function fetchNewsApi(string $apiSourceId): array
     {
-        $ApiSourceServiceClass = $this->apiSourcesService->getServiceName($apiSourceId);
+        $ApiSourceServiceClass = NewsServicesFactory::make($apiSourceId);//$this->apiSourcesService->getServiceName($apiSourceId);
 
         $articlesResponse = new $ApiSourceServiceClass()->fetchArticles(); // fetch Api Source response for every api source based on api source id for example: NewsApiOrgService()
 
@@ -70,7 +71,7 @@ class ArticleService implements ArticleServiceInterface
 
     public function convertApiResponseToDatabaseColumns(string $apiSourceId, ?array $articlesResponse): array
     {
-        $adapter = NewsAdapterFactory::make($apiSourceId);
+        $adapter = NewsAdaptersFactory::make($apiSourceId);
 
         $transformArticles = [];
         foreach ($articlesResponse as $article) {
