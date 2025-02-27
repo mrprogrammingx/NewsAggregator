@@ -62,7 +62,7 @@ class ArticleService implements ArticleServiceInterface
 
     public function fetchNewsApi(string $apiSourceId): array
     {
-        $ApiSourceServiceClass = NewsServicesFactory::make($apiSourceId);//$this->apiSourcesService->getServiceName($apiSourceId);
+        $ApiSourceServiceClass = NewsServicesFactory::make($apiSourceId, $this->apiSourcesService);//$this->apiSourcesService->getServiceName($apiSourceId);
 
         $articlesResponse = new $ApiSourceServiceClass()->fetchArticles(); // fetch Api Source response for every api source based on api source id for example: NewsApiOrgService()
 

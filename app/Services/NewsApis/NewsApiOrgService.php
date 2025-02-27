@@ -4,6 +4,7 @@ namespace App\Services\NewsApis;
 
 use App\Enums\ApiSources;
 use App\Enums\LanguageCodes;
+use App\Exceptions\ApiException;
 use App\Traits\ErrorLogTrait;
 use Illuminate\Support\Facades\Http;
 use App\Contracts\NewsServicesInterface;
@@ -55,11 +56,11 @@ class NewsApiOrgService implements NewsServicesInterface
                     'source_api' => $this->apiSourceId,
                 ]);
 
-                throw new \Exception('Failed to fetch articles from API:' . $this->apiSourceId);
+                throw new ApiException('Failed to fetch articles from API:' . $this->apiSourceId);
             }
 
             return $response->json('articles') ?? [];
-        } catch (\Exception $e) {
+        } catch (ApiException $e) {
 
             $this->logError('Error fetching articles', ['message' => $e->getMessage(), 'source_api' => $this->apiSourceId]);
 

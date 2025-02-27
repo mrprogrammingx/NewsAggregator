@@ -3,6 +3,7 @@
 namespace App\Services\NewsApis;
 
 use App\Enums\ApiSources;
+use App\Exceptions\ApiException;
 use App\Traits\ErrorLogTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -47,12 +48,12 @@ class NewYorkTimesService implements NewsServicesInterface
                     'source_api' => $this->apiSourceId,
                 ]);
 
-                throw new \Exception('Failed to fetch articles from API:' . $this->apiSourceId);
+                throw new ApiException('Failed to fetch articles from API:' . $this->apiSourceId);
             }
 
             return $response->json('response.docs') ?? [];
 
-        } catch (\Exception $e) {
+        } catch (ApiException $e) {
 
             $this->logError('Error fetching articles', ['message' => $e->getMessage(), 'source_api' => $this->apiSourceId]);
 

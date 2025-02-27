@@ -2,10 +2,12 @@
 
 namespace App\Services\Factories;
 
+use App\Exceptions\BindingException;
 use App\Contracts\NewsServicesInterface;
 use App\Contracts\ApiSourcesServiceInterface;
+use App\Exceptions\InvalidApiSourceException;
 use App\Contracts\NewsServicesFactoryInterface;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use App\Exceptions\RuntimeAppException;
 
 class NewsServicesFactory implements NewsServicesFactoryInterface
 {
@@ -14,14 +16,14 @@ class NewsServicesFactory implements NewsServicesFactoryInterface
         $serviceClass = $apiSourcesService->getServiceName($apiSourceId);
 
         if (!class_exists($serviceClass)) {
-            throw new \InvalidArgumentException("Invalid API source: {$apiSourceId}");
+            throw new InvalidApiSourceException("Invalid API source: {$apiSourceId}");
         }
 
         try {
             return app()->make($serviceClass);
 
-        } catch (BindingResolutionException $e) {
-            throw new \RuntimeException("Failed to resolve service: {$serviceClass}");
+        } catch (BindingException $e) {
+            throw new RuntimeAppException("Failed to resolve service: {$serviceClass}");
         }
     }
 }
