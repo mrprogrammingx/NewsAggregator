@@ -4,18 +4,11 @@ namespace App\Services\NewsApis;
 
 use App\Enums\ApiSources;
 use App\Enums\LanguageCodes;
-use App\Exceptions\ApiException;
-use App\Traits\ErrorLogTrait;
-use Illuminate\Support\Facades\Http;
-use App\Contracts\NewsServicesInterface;
 
-class TheGuardianService implements NewsServicesInterface
+class TheGuardianService extends BaseNewsService
 {
-
-    use ErrorLogTrait;
-
-    private string $apiSourceId = ApiSources::THEGUARDIAN->value;
-    private array $apiSourceConfig;
+    protected string $apiSourceId = ApiSources::THEGUARDIAN->value;
+    protected array $apiSourceConfig;
     public function __construct()
     {
         $this->apiSourceConfig = config("global.news.$this->apiSourceId");
@@ -29,7 +22,7 @@ class TheGuardianService implements NewsServicesInterface
         ): array
     {
 
-        return $this->callApi($path, $this->buildQueryParams($query, $page, $languageCode));
+        return $this->callApi($path, $this->buildQueryParams($query, $page, $languageCode), $resultKey = 'response.results');
     }
 
     private function buildQueryParams(?string $query, ?int $page, ?LanguageCodes $languageCode): array
@@ -43,31 +36,5 @@ class TheGuardianService implements NewsServicesInterface
             'show-fields' => 'bodyText',
             'from-date' => now()->subDays($this->apiSourceConfig['days_ago'])->format('Y-m-d'),
         ];
-    }
-
-    public function callApi(?string $path, ?array $queryParams): array
-    {
-        try {
-
-            $response = Http::get($this->apiSourceConfig['base_url'] . $path, $queryParams);
-
-            if ($response->failed()) {
-                $this->logError('Failed to fetch articles', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'source_api' => $this->apiSourceId,
-                ]);
-
-                throw new ApiException('Failed to fetch articles from API:'.$this->apiSourceId);
-            }
-
-            return $response->json('response.results') ?? [];
-
-        } catch (ApiException $e) {
-
-            $this->logError('Error fetching articles', ['message' => $e->getMessage(),'source_api' => $this->apiSourceId]);
-
-            return [];
-        }
     }
 }
