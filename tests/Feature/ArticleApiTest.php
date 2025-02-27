@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Enums\ApiSources;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArticleApiTest extends TestCase
@@ -61,7 +60,7 @@ class ArticleApiTest extends TestCase
         $response = $this->postJson('/api/articles', $payload);
 
         $response->assertStatus(201)
-                 ->assertJsonFragment(['title' => 'Test Article']);
+            ->assertJsonFragment(['title' => 'Test Article']);
 
         $this->assertDatabaseHas('articles', ['title' => 'Test Article']);
     }

@@ -2,21 +2,21 @@
 
 namespace Tests\Unit;
 
+use App\Http\Controllers\Api\ArticleController;
+use App\Http\Requests\ArticleSearchRequest;
+use App\Http\Resources\ArticlePaginationCollection;
+use App\Models\Article;
+use App\Services\ApiSourcesService;
+use App\Services\ArticleService;
+use App\Services\NewsApis\NewsApiOrgService;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Mockery;
 use Tests\TestCase;
-use App\Models\Article;
-use App\Services\ArticleService;
-use App\Services\ApiSourcesService;
-use Illuminate\Support\Facades\Log;
-use App\Http\Requests\ArticleSearchRequest;
-use App\Services\NewsApis\NewsApiOrgService;
-use App\Http\Controllers\Api\ArticleController;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Http\Resources\ArticlePaginationCollection;
 
 class ArticleServiceTest extends TestCase
 {
-    public function test_storeArticles_logs_errors_and_saves_successful_articles()
+    public function test_store_articles_logs_errors_and_saves_successful_articles()
     {
 
         Log::shouldReceive('info')->twice();
@@ -115,16 +115,13 @@ class ArticleServiceTest extends TestCase
             ->with('news_api_test')
             ->andReturn(NewsApiOrgService::class);
 
-
         $apiSourceMock = Mockery::mock(NewsApiOrgService::class);
         $apiSourceMock->shouldReceive('fetchArticles')
             ->andReturn([
                 ['title' => 'Fetched Article', 'content' => 'Content of the article'],
             ]);
 
-
         app()->instance(NewsApiOrgService::class, $apiSourceMock);
-
 
         $articleService = Mockery::mock(ArticleService::class)
             ->makePartial()
@@ -141,8 +138,8 @@ class ArticleServiceTest extends TestCase
         $articleService
             ->shouldReceive('fetchNewsApi')
             ->with('news_api_test')->andReturn([
-                    ['title' => 'Transformed Article', 'content' => 'Transformed Content'],
-                ]);
+                ['title' => 'Transformed Article', 'content' => 'Transformed Content'],
+            ]);
 
         $articles = $articleService->fetchNewsApi('news_api_test');
 

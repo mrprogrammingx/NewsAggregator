@@ -2,11 +2,9 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Console\Commands\FetchNewsData;
 use App\Services\ArticleService;
 use Mockery;
-use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 class FetchNewsDataTest extends TestCase
 {
@@ -28,7 +26,7 @@ class FetchNewsDataTest extends TestCase
     public function test_fetch_news_data_command_executes_successfully()
     {
         $articleServiceMock = Mockery::mock(ArticleService::class);
-        
+
         $articleServiceMock->shouldReceive('saveAllFetchedNewsApies')
             ->once()
             ->andReturn(['article1', 'article2']); // Simulate non-empty array response

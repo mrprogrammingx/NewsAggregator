@@ -2,17 +2,15 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Http\Requests\ArticleStoreRequest;
 use Illuminate\Support\Facades\Validator;
+use Tests\TestCase;
 
 class ArticleRequestTest extends TestCase
 {
     public function test_validation_rules_for_article_store_request()
     {
-        $request = new ArticleStoreRequest();
+        $request = new ArticleStoreRequest;
 
         $data = [
             'title' => '',
