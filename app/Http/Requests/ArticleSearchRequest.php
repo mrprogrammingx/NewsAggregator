@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\ApiSources;
+use App\Enums\HttpResponseCode;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Exceptions\RequestValidatorException;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ArticleSearchRequest extends FormRequest
 {
@@ -64,11 +65,11 @@ class ArticleSearchRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
+        throw new RequestValidatorException(response()->json([
             'success' => false,
             'message' => $validator->errors(),
             'data' => $validator->errors()
-        ], 400));
+        ], HttpResponseCode::FORBIDDEN->value));
     }
 
     /**

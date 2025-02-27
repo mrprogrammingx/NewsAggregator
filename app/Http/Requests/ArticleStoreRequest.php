@@ -3,10 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Enums\ApiSources;
+use App\Enums\HttpResponseCode;
+use App\Exceptions\RequestValidatorException;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ArticleStoreRequest extends FormRequest
 {
@@ -31,15 +32,15 @@ class ArticleStoreRequest extends FormRequest
             'api_source' => [
                 'required',
                 Rule::in(array_column(ApiSources::cases(), 'value')),
-            ], 
-            'source' => 'nullable|string|max:255', 
-            'author' => 'nullable|string|max:100', 
-            'description' => 'nullable|string', 
-            'category' => 'nullable|string|max:50', 
-            'language' => 'nullable|string|max:50', 
-            'url_to_image' => 'nullable|string|max:280', 
-            'content' => 'nullable|string', 
-            'published_at' => 'required|date', 
+            ],
+            'source' => 'nullable|string|max:255',
+            'author' => 'nullable|string|max:100',
+            'description' => 'nullable|string',
+            'category' => 'nullable|string|max:50',
+            'language' => 'nullable|string|max:50',
+            'url_to_image' => 'nullable|string|max:280',
+            'content' => 'nullable|string',
+            'published_at' => 'required|date',
         ];
     }
 
@@ -73,11 +74,12 @@ class ArticleStoreRequest extends FormRequest
     }
 
 
-    public function failedValidation(Validator $validator) { 
-        throw new HttpResponseException(response()->json([ 
-            'success'   => false, 
-            'message'   => $validator->errors() , 
-            'data'      => $validator->errors() 
-        ],400));
+    public function failedValidation(Validator $validator)
+    {
+        throw new RequestValidatorException(response()->json([
+            'success' => false,
+            'message' => $validator->errors(),
+            'data' => $validator->errors()
+        ], HttpResponseCode::FORBIDDEN->value));
     }
 }
