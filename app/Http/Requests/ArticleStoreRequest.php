@@ -5,9 +5,9 @@ namespace App\Http\Requests;
 use App\Enums\ApiSources;
 use App\Enums\HttpResponseCode;
 use App\Exceptions\RequestValidatorException;
-use Illuminate\Validation\Rule;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ArticleStoreRequest extends FormRequest
 {
@@ -44,7 +44,6 @@ class ArticleStoreRequest extends FormRequest
         ];
     }
 
-
     /**
      * Sanitize input data before validation.
      */
@@ -73,13 +72,12 @@ class ArticleStoreRequest extends FormRequest
         return $value ? mb_convert_encoding(htmlspecialchars(strip_tags(trim($value))), 'UTF-8', 'UTF-8') : null;
     }
 
-
     public function failedValidation(Validator $validator)
     {
         throw new RequestValidatorException(response()->json([
             'success' => false,
             'message' => $validator->errors(),
-            'data' => $validator->errors()
+            'data' => $validator->errors(),
         ], HttpResponseCode::FORBIDDEN->value));
     }
 }

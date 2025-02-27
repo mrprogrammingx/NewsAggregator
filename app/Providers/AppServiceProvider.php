@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Services\ApiSourcesService;
-use App\Services\ArticleService;
-use App\Repositories\ArticleRepository;
-use Illuminate\Support\ServiceProvider;
-use App\Contracts\ArticleServiceInterface;
 use App\Contracts\ApiSourcesServiceInterface;
 use App\Contracts\ArticleRepositoryInterface;
+use App\Contracts\ArticleServiceInterface;
+use App\Repositories\ArticleRepository;
+use App\Services\ApiSourcesService;
+use App\Services\ArticleService;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

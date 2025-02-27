@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use App\Enums\ApiSources;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -38,9 +38,10 @@ class ArticleResource extends JsonResource
      */
     private function formatDate($date): ?string
     {
-        if (!$date) {
+        if (! $date) {
             return null;
         }
+
         return Carbon::parse($date)->format('F j, Y, g:i A'); // e.g., "January 25, 2025, 5:48 PM"
     }
 }

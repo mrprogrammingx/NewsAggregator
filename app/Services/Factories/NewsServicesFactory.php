@@ -2,11 +2,11 @@
 
 namespace App\Services\Factories;
 
-use App\Exceptions\BindingException;
-use App\Contracts\NewsServicesInterface;
 use App\Contracts\ApiSourcesServiceInterface;
-use App\Exceptions\InvalidApiSourceException;
 use App\Contracts\NewsServicesFactoryInterface;
+use App\Contracts\NewsServicesInterface;
+use App\Exceptions\BindingException;
+use App\Exceptions\InvalidApiSourceException;
 use App\Exceptions\RuntimeAppException;
 
 class NewsServicesFactory implements NewsServicesFactoryInterface
@@ -15,7 +15,7 @@ class NewsServicesFactory implements NewsServicesFactoryInterface
     {
         $serviceClass = $apiSourcesService->getServiceName($apiSourceId);
 
-        if (!class_exists($serviceClass)) {
+        if (! class_exists($serviceClass)) {
             throw new InvalidApiSourceException("Invalid API source: {$apiSourceId}");
         }
 

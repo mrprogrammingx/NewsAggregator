@@ -2,32 +2,32 @@
 
 namespace App\Services;
 
+use App\Contracts\ApiSourcesServiceInterface;
+use App\Contracts\ArticleRepositoryInterface;
+use App\Contracts\ArticleServiceInterface;
+use App\Http\Requests\ArticleStoreRequest;
 use App\Models\Article;
+use App\Services\Factories\NewsAdaptersFactory;
 use App\Services\Factories\NewsServicesFactory;
 use App\Traits\ErrorLogTrait;
 use App\Traits\ValidationTrait;
-use Illuminate\Support\Facades\Log;
-use App\Contracts\ArticleServiceInterface;
-use App\Http\Requests\ArticleStoreRequest;
-use App\Contracts\ApiSourcesServiceInterface;
-use App\Contracts\ArticleRepositoryInterface;
-use App\Services\Factories\NewsAdaptersFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class ArticleService implements ArticleServiceInterface
 {
-    use ValidationTrait;
     use ErrorLogTrait;
+    use ValidationTrait;
 
     private array $articleConfig;
 
     public function __construct(
         public ArticleRepositoryInterface $articleRepository,
         public ApiSourcesServiceInterface $apiSourcesService,
-        )
-    {
+    ) {
         $this->articleConfig = config('global.articles');
     }
+
     public function all(): LengthAwarePaginator
     {
         return $this->articleRepository->all();
@@ -35,10 +35,11 @@ class ArticleService implements ArticleServiceInterface
 
     public function store(array $article): ?Article
     {
-        $validatedArticle = $this->validateWithCustomFormRequest($article, new ArticleStoreRequest());
+        $validatedArticle = $this->validateWithCustomFormRequest($article, new ArticleStoreRequest);
 
-        if($validatedArticle === false){
+        if ($validatedArticle === false) {
             $this->logError('Failed to saving Article in the database:', $article);
+
             return null;
         }
 
@@ -62,9 +63,9 @@ class ArticleService implements ArticleServiceInterface
 
     public function fetchNewsApi(string $apiSourceId): array
     {
-        $ApiSourceServiceClass = NewsServicesFactory::make($apiSourceId, $this->apiSourcesService);//$this->apiSourcesService->getServiceName($apiSourceId);
+        $ApiSourceServiceClass = NewsServicesFactory::make($apiSourceId, $this->apiSourcesService); // $this->apiSourcesService->getServiceName($apiSourceId);
 
-        $articlesResponse = new $ApiSourceServiceClass()->fetchArticles(); // fetch Api Source response for every api source based on api source id for example: NewsApiOrgService()
+        $articlesResponse = new $ApiSourceServiceClass->fetchArticles(); // fetch Api Source response for every api source based on api source id for example: NewsApiOrgService()
 
         return $this->convertApiResponseToDatabaseColumns($apiSourceId, $articlesResponse);
     }
@@ -105,16 +106,15 @@ class ArticleService implements ArticleServiceInterface
     public function storeArticles(array $articles): array
     {
         Log::info('Start saving articles to the database.');
-        
+
         $savedArticles = [];
-        foreach($articles as $article)
-        {
+        foreach ($articles as $article) {
             $result = $this->store($article);
 
-            if($result === null){
+            if ($result === null) {
                 $this->logError('Error saving article to database.', $article);
             }
-            $savedArticles[] = $result; 
+            $savedArticles[] = $result;
 
         }
 

@@ -2,12 +2,12 @@
 
 namespace App\Services\Adapters;
 
-use Illuminate\Support\Str;
 use App\Contracts\ArticleAdapterInterface;
 
 class TheGuardianAdapter implements ArticleAdapterInterface
 {
     private array $apiSourceConfig;
+
     public function __construct(public readonly string $apiSourceId)
     {
         $this->apiSourceConfig = config("global.news.$apiSourceId");

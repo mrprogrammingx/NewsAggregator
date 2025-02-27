@@ -8,7 +8,9 @@ use App\Enums\LanguageCodes;
 class NewsApiOrgService extends BaseNewsService
 {
     protected string $apiSourceId = ApiSources::NEWSAPIORG->value;
+
     protected array $apiSourceConfig;
+
     public function __construct()
     {
         $this->apiSourceConfig = config("global.news.$this->apiSourceId");
@@ -17,7 +19,7 @@ class NewsApiOrgService extends BaseNewsService
     public function fetchArticles(
         string $path = '/v2/top-headlines',
         int $page = 1,
-        string $query = null,
+        ?string $query = null,
         LanguageCodes $languageCode = LanguageCodes::EN,
     ): array {
 
@@ -32,6 +34,6 @@ class NewsApiOrgService extends BaseNewsService
             'language' => $languageCode->value,
             'page' => $page,
             'q' => $query,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

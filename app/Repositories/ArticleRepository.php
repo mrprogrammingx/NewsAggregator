@@ -2,16 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\Article;
 use App\Contracts\ArticleRepositoryInterface;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Article;
 use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
-    public function __construct(public Article $article)
-    {
-    }
+    public function __construct(public Article $article) {}
+
     public function all(): LengthAwarePaginator
     {
         return $this->article::paginate(10);
@@ -28,35 +27,35 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function applyFilters(array $filters): Builder
     {
         $query = $this->article::query();
-        
-        if (!empty($filters['search'])) {
+
+        if (! empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
                 $q->where('title', 'like', "%{$filters['search']}%")
-                  ->orWhere('content', 'like', "%{$filters['search']}%");
+                    ->orWhere('content', 'like', "%{$filters['search']}%");
             });
         }
 
-        if (!empty($filters['category'])) {
+        if (! empty($filters['category'])) {
             $query->where('category', $filters['category']);
         }
 
-        if (!empty($filters['source'])) {
+        if (! empty($filters['source'])) {
             $query->where('source', $filters['source']);
         }
 
-        if (!empty($filters['api_source'])) {
+        if (! empty($filters['api_source'])) {
             $query->where('api_source', $filters['api_source']);
         }
 
-        if (!empty($filters['author'])) {
+        if (! empty($filters['author'])) {
             $query->where('author', $filters['author']);
         }
 
-        if (!empty($filters['date_from'])) {
+        if (! empty($filters['date_from'])) {
             $query->whereDate('published_at', '>=', $filters['date_from']);
         }
 
-        if (!empty($filters['date_to'])) {
+        if (! empty($filters['date_to'])) {
             $query->whereDate('published_at', '<=', $filters['date_to']);
         }
 

@@ -6,9 +6,7 @@ use App\Contracts\ArticleAdapterInterface;
 
 class NewYorkTimesAdapter implements ArticleAdapterInterface
 {
-    public function __construct(public readonly string $apiSourceId)
-    {
-    }
+    public function __construct(public readonly string $apiSourceId) {}
 
     public function transform(array $article): array
     {

@@ -8,7 +8,9 @@ use App\Enums\LanguageCodes;
 class TheGuardianService extends BaseNewsService
 {
     protected string $apiSourceId = ApiSources::THEGUARDIAN->value;
+
     protected array $apiSourceConfig;
+
     public function __construct()
     {
         $this->apiSourceConfig = config("global.news.$this->apiSourceId");
@@ -17,10 +19,9 @@ class TheGuardianService extends BaseNewsService
     public function fetchArticles(
         string $path = '/search',
         int $page = 1,
-        string $query = null,
+        ?string $query = null,
         LanguageCodes $languageCode = LanguageCodes::EN,
-        ): array
-    {
+    ): array {
 
         return $this->callApi($path, $this->buildQueryParams($query, $page, $languageCode), $resultKey = 'response.results');
     }

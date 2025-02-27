@@ -4,10 +4,10 @@ namespace App\Http\Requests;
 
 use App\Enums\ApiSources;
 use App\Enums\HttpResponseCode;
-use Illuminate\Validation\Rule;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Exceptions\RequestValidatorException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ArticleSearchRequest extends FormRequest
 {
@@ -68,7 +68,7 @@ class ArticleSearchRequest extends FormRequest
         throw new RequestValidatorException(response()->json([
             'success' => false,
             'message' => $validator->errors(),
-            'data' => $validator->errors()
+            'data' => $validator->errors(),
         ], HttpResponseCode::FORBIDDEN->value));
     }
 
@@ -80,7 +80,7 @@ class ArticleSearchRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'api_source' => 'Api source is invalid, choose between this list: ' . implode(' , ', array_column(ApiSources::cases(), 'value')),
+            'api_source' => 'Api source is invalid, choose between this list: '.implode(' , ', array_column(ApiSources::cases(), 'value')),
         ];
     }
 }

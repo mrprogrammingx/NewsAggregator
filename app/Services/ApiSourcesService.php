@@ -11,19 +11,19 @@ class ApiSourcesService implements ApiSourcesServiceInterface
     {
         return ApiSources::cases();
     }
+
     public function getActiveIds(): array
     {
         return array_keys(
             array_filter(
                 config('global.news'),
-                fn($item) => $item['active'] === true
+                fn ($item) => $item['active'] === true
             )
         );
     }
 
     public function getServiceName(string $apiSourceId): string
     {
-        return 'App\Services\NewsApis\\' . ApiSources::serviceClassName($apiSourceId);
+        return 'App\Services\NewsApis\\'.ApiSources::serviceClassName($apiSourceId);
     }
-
 }

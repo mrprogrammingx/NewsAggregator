@@ -3,8 +3,8 @@
 namespace App\Contracts;
 
 use App\Models\Article;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ArticleRepositoryInterface
 {
@@ -15,5 +15,4 @@ interface ArticleRepositoryInterface
     public function applyFilters(array $filters): Builder;
 
     public function search(array $filters): LengthAwarePaginator;
-
 }

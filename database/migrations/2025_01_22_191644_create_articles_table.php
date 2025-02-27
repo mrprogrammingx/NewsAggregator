@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('title');
             $table->string('author')->nullable();
             $table->string('api_source');
-            $table->string('source')->nullable(); 
+            $table->string('source')->nullable();
             $table->text('description')->nullable();
             $table->string('category')->nullable();
             $table->string('language')->nullable();
-            $table->string('url_to_image',280)->nullable();
-            $table->string('url',280)->unique(); // Prevent duplicate entries
+            $table->string('url_to_image', 280)->nullable();
+            $table->string('url', 280)->unique(); // Prevent duplicate entries
             $table->text('content')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

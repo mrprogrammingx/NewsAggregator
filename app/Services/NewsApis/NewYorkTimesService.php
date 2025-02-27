@@ -7,6 +7,7 @@ use App\Enums\ApiSources;
 class NewYorkTimesService extends BaseNewsService
 {
     protected string $apiSourceId = ApiSources::NEWYORKTIMES->value;
+
     protected array $apiSourceConfig;
 
     public function __construct()

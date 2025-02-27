@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ArticleResource;
 use App\Contracts\ArticleServiceInterface;
-use App\Http\Requests\ArticleStoreRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleSearchRequest;
+use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Resources\ArticlePaginationCollection;
+use App\Http\Resources\ArticleResource;
 
 class ArticleController extends Controller
 {
-    public function __construct(public readonly ArticleServiceInterface $articleService)
-    {
-    }
-    
+    public function __construct(public readonly ArticleServiceInterface $articleService) {}
+
     public function index(): ArticlePaginationCollection
     {
         return new ArticlePaginationCollection($this->articleService->all());
@@ -28,6 +26,7 @@ class ArticleController extends Controller
     public function fetchAllNewsApies(): array
     {
         $articles = $this->articleService->fetchAllNewsApies();
+
         return $articles;
     }
 
